@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 
+const withBase = (p: string) => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`
+
 const featuredGames = [
   { id: 'snake', name: 'Snake', desc: 'Classic snake game', path: '/games/snake', image: '/Snake.jpg' },
   { id: '2048', name: '2048', desc: 'Merge tiles', path: '/games/2048' , image: '/2048.png'},
@@ -32,7 +34,14 @@ export default function Home() {
           {featuredGames.map((g) => (
             <Link key={g.id} to={g.path} className="game-card">
               <div className="game-card-image">
-                <img src={g.image || `/images/games/${g.id}.jpg`} alt={g.name} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.add('visible'); }} />
+                <img
+                  src={withBase(g.image || `/images/games/${g.id}.jpg`)}
+                  alt={g.name}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                    e.currentTarget.nextElementSibling?.classList.add('visible')
+                  }}
+                />
                 <div className="game-card-placeholder" />
               </div>
               <div className="game-card-content">

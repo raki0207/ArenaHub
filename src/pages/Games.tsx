@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
+const withBase = (p: string) => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`
+
 const games = [
   { id: 'snake', name: 'Snake', desc: 'Eat food, grow longer. Classic arcade fun!', path: '/games/snake', image: '/Snake.jpg' },
   { id: 'tictactoe', name: 'Tic Tac Toe', desc: 'Beat the AI in this timeless strategy game.', path: '/games/tictactoe' , image: '/tic-tac-to.jpg'},
@@ -41,7 +43,14 @@ export default function Games() {
         {games.map((g) => (
           <Link key={g.id} to={g.path} className="game-card-large">
             <div className="game-card-image">
-              <img src={g.image || `/images/games/${g.id}.jpg`} alt={g.name} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.add('visible'); }} />
+              <img
+                src={withBase(g.image || `/images/games/${g.id}.jpg`)}
+                alt={g.name}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                  e.currentTarget.nextElementSibling?.classList.add('visible')
+                }}
+              />
               <div className="game-card-placeholder" />
             </div>
             <div className="game-card-content">
